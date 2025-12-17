@@ -10,6 +10,18 @@ import { themes as prismThemes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'api',
+        path: 'api',
+        routeBasePath: 'api',
+        sidebarPath: './sidebarsApi.js',
+      },
+    ],
+  ],
+
   title: 'My Tutorial Site',
   tagline: 'Dinosaurs are cool',
   favicon: 'img/favicon.ico',
@@ -95,7 +107,22 @@ const config = {
             position: 'left',
             label: 'Documentation',
           },
+          {
+            to: '/api/intro',
+            label: 'API',
+            position: 'left',
+          },
           { to: '/blog', label: 'Blog', position: 'left' },
+          {
+            type: 'docsVersionDropdown',
+            docsPluginId: 'default',
+            position: 'right',
+          },
+          {
+            type: 'docsVersionDropdown',
+            docsPluginId: 'api',
+            position: 'right',
+          },
           {
             href: 'https://github.com/facebook/docusaurus',
             label: 'GitHub',
