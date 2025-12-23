@@ -22,6 +22,8 @@ const config = {
     ],
   ],
 
+  themes: ["docusaurus-theme-openapi-docs"],
+
   title: 'My Tutorial Site',
   tagline: 'Dinosaurs are cool',
   favicon: 'img/favicon.ico',
@@ -121,11 +123,6 @@ const config = {
           {
             type: 'docsVersionDropdown',
             docsPluginId: 'api',
-            position: 'right',
-          },
-          {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
             position: 'right',
           },
         ],
