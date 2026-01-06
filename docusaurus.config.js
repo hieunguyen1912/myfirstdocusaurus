@@ -6,23 +6,62 @@
 
 import { themes as prismThemes } from 'prism-react-renderer';
 
+const docsInstances = require('./plugins/docs-instances.json');
+
+const staticLeftItems = [
+  { to: '/blog', label: 'Blog', position: 'left' },
+];
+
+const staticRightItems = [
+  {
+    href: 'https://github.com/your-org/your-repo',
+    label: 'GitHub',
+    position: 'right',
+  },
+];
+
+const docsLeftItems = docsInstances.map((doc) => ({
+  to: `/${doc.routeBasePath}/intro`,
+  label: doc.label,
+  position: 'left',
+}));
+
+const docsVersionDropdowns = docsInstances
+  .filter((doc) => doc.hasVersioning)
+  .map((doc) => ({
+    type: 'docsVersionDropdown',
+    docsPluginId: doc.id,
+    position: 'right',
+  }));
+
+
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 /** @type {import('@docusaurus/types').Config} */
+
 const config = {
   plugins: [
+    ...docsInstances.map((inst) => [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: inst.id,
+        path: inst.path,
+        routeBasePath: inst.routeBasePath,
+        sidebarPath: inst.sidebarPath ? `./${inst.sidebarPath}` : undefined,
+      },
+    ]),
+
     [
       '@docusaurus/plugin-content-docs',
       {
-        id: 'api',
-        path: 'api',
-        routeBasePath: 'api',
-        sidebarPath: './sidebarsApi.js',
+        id: 'preview',
+        path: './preview',
+        routeBasePath: 'preview',
+        sidebarPath: './preview/sidebar.js',
       },
-    ],
-  ],
+    ]
 
-  themes: ["docusaurus-theme-openapi-docs"],
+  ],
 
   title: 'My Tutorial Site',
   tagline: 'Dinosaurs are cool',
@@ -59,13 +98,14 @@ const config = {
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
-        docs: {
-          sidebarPath: './sidebars.js',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-        },
+        docs: false,
+        // {
+        //   sidebarPath: './sidebars.js',
+        //   // Please change this to your repo.
+        //   // Remove this to remove the "edit this page" links.
+        //   editUrl:
+        //     'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+        // },
         blog: {
           showReadingTime: true,
           feedOptions: {
@@ -96,6 +136,11 @@ const config = {
       colorMode: {
         respectPrefersColorScheme: true,
       },
+      docs: {
+        sidebar: {
+          hideable: true,
+        },
+      },
       navbar: {
         title: 'My Tutorial Site',
         logo: {
@@ -103,28 +148,10 @@ const config = {
           src: 'img/android-chrome-192x192.png',
         },
         items: [
-          {
-            type: 'doc',
-            docId: 'intro',
-            position: 'left',
-            label: 'Documentation',
-          },
-          {
-            to: '/api/intro',
-            label: 'API',
-            position: 'left',
-          },
-          { to: '/blog', label: 'Blog', position: 'left' },
-          {
-            type: 'docsVersionDropdown',
-            docsPluginId: 'default',
-            position: 'right',
-          },
-          {
-            type: 'docsVersionDropdown',
-            docsPluginId: 'api',
-            position: 'right',
-          },
+          ...staticLeftItems,
+          ...docsLeftItems,
+          ...staticRightItems,
+          ...docsVersionDropdowns,
         ],
       },
       footer: {

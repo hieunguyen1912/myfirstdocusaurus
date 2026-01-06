@@ -1,0 +1,8 @@
+[ {
+  "id" : "doc1",
+  "path" : "doc1",
+  "label" : "doc1",
+  "routeBasePath" : "doc1",
+  "sidebarPath" : "./doc1.js",
+  "hasVersioning" : true
+} ]
